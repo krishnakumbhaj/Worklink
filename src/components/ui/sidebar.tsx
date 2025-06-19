@@ -1,6 +1,5 @@
 "use client";
 import { cn } from "@/lib/utils";
-import Link, { LinkProps } from "next/link";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
@@ -89,7 +88,7 @@ export const DesktopSidebar = ({
     <>
       <motion.div
         className={cn(
-          "h-full px-4 py-4 hidden  md:flex md:flex-col bg-neutral-100 dark:bg-neutral-800 w-[300px] flex-shrink-0",
+          "h-full px-4 py-4 hidden  md:flex md:flex-col bg-neutral-100 dark:bg-neutral-800 w-[300px] shrink-0",
           className
         )}
         animate={{
@@ -115,13 +114,13 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
+          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-[#333236] dark:bg-neutral-800 w-full"
         )}
         {...props}
       >
         <div className="flex justify-end z-20 w-full">
           <IconMenu2
-            className="text-neutral-800 dark:text-neutral-200"
+            className="text-neutral-100 dark:text-neutral-200"
             onClick={() => setOpen(!open)}
           />
         </div>
@@ -141,7 +140,7 @@ export const MobileSidebar = ({
               )}
             >
               <div
-                className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200"
+                className="absolute right-10 top-10 z-50 text-neutral-100 dark:text-neutral-200"
                 onClick={() => setOpen(!open)}
               >
                 <IconX />
@@ -162,14 +161,13 @@ export const SidebarLink = ({
 }: {
   link: Links;
   className?: string;
-  props?: LinkProps;
 }) => {
   const { open, animate } = useSidebar();
   return (
-    <Link
+    <a
       href={link.href}
       className={cn(
-        "flex items-center justify-start gap-2  group/sidebar py-2",
+        "flex items-center text-neutral-100 justify-start gap-2  group/sidebar py-2",
         className
       )}
       {...props}
@@ -181,10 +179,10 @@ export const SidebarLink = ({
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
           opacity: animate ? (open ? 1 : 0) : 1,
         }}
-        className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+        className="text-[#fefefe] dark:text-neutral-200 text-md group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
       >
         {link.label}
       </motion.span>
-    </Link>
+    </a>
   );
 };

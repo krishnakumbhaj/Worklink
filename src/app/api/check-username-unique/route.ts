@@ -34,9 +34,7 @@ export async function GET(request: Request) {
 
     const { username } = result.data;
 
-    const existingUser = await UserModel.findOne({
-      username,
-    });
+    const existingUser = await UserModel.findOne({ username });
 
     if (existingUser) {
       return Response.json(
@@ -44,7 +42,7 @@ export async function GET(request: Request) {
           success: false,
           message: 'Username is already taken',
         },
-        { status: 200 }
+        { status: 409 } // 👈 Correct HTTP status code for "already exists"
       );
     }
 
