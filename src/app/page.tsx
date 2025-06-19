@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { LampContainer } from "../components/ui/lamp";
 import { useRouter } from "next/navigation";
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   // Placeholder for the sign-up button action
   const handleSignUp = () => {

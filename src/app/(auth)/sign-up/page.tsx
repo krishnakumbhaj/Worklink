@@ -55,15 +55,18 @@ export default function SignUpForm() {
       setIsCheckingUsername(true);
       setUsernameValid(false);
       try {
-        const res = await axios.get(`/api/check-username-unique?username=${debouncedUsername}`);
+        await axios.get(`/api/check-username-unique?username=${debouncedUsername}`);
         setUsernameValid(true);
       } catch (error) {
-        const axiosError = error as AxiosError;
+        interface UsernameErrorResponse {
+          message?: string;
+        }
+        const axiosError = error as AxiosError<UsernameErrorResponse>;
         setUsernameValid(false);
         toast({
           title: 'Username Error',
           description:
-            (axiosError.response?.data as any)?.message || 'Error checking username',
+            axiosError.response?.data?.message || 'Error checking username',
           variant: 'destructive',
           className: 'bg-red-700 text-white',
         });
@@ -76,18 +79,18 @@ export default function SignUpForm() {
 }, [debouncedUsername, toast]);
 
 
- const [isRedirecting, setIsRedirecting] = useState(false);
-
 const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
   setIsSubmitting(true);
   try {
     await axios.post('/api/sign-up', data);
-    setIsRedirecting(true);  // 👈 Activate full screen loader
     router.replace('/dashboard');
   } catch (error) {
-    const axiosError = error as AxiosError;
+    interface SignUpErrorResponse {
+      error?: string;
+    }
+    const axiosError = error as AxiosError<SignUpErrorResponse>;
     const errorMessage =
-      (axiosError.response?.data as any)?.error || 'Sign up failed. Please try again.';
+      axiosError.response?.data?.error || 'Sign up failed. Please try again.';
 
     toast({
       title: 'Sign Up Failed',
@@ -279,7 +282,7 @@ const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
                         type="email"
                       />
                       <p className='text-zinc-500 text-sm mt-1'>
-                        We'll send you a verification code
+                        Well send you a verification code
                       </p>
                       <FormMessage className="text-red-400" />
                     </FormItem>

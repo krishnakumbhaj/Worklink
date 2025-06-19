@@ -3,11 +3,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Project from '@/models/Project';
 
-export async function GET(req: NextRequest, { params }: { params: { projectId: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ projectId: string }> }) {
   await dbConnect();
 
   try {
-    const project = await Project.findById(params.projectId).populate('applicants', 'username email');
+    // ✅ Await the params to get projectId
+    const { projectId } = await params;
+
+    const project = await Project.findById(projectId).populate('applicants', 'username email');
     if (!project) {
       return NextResponse.json({ message: 'Project not found' }, { status: 404 });
     }

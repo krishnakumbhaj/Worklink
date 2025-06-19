@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import EditableField from '@/components/EditableField';
 import axios from 'axios';
@@ -191,7 +191,7 @@ export default function EditProfilePage() {
                 <div className="relative group">
                   <div className="absolute -inset-4 bg-gradient-to-r from-[#894cd1] to-purple-600 rounded-full opacity-20 blur-xl group-hover:opacity-30 transition-all duration-500"></div>
                   <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-[#894cd1]/50 shadow-2xl">
-                    <img
+                    <Image
                       src={profile.profileImage || '/default-avatar.png'}
                       alt="Profile"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

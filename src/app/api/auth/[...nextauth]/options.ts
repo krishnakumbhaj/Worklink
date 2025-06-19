@@ -87,7 +87,13 @@ export const authOptions: NextAuthOptions = {
         identifier: { label: 'Email or Username', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials: any): Promise<any> {
+      async authorize(
+        credentials: Record<"identifier" | "password", string> | undefined
+      ): Promise<{ id: string; username: string; email: string } | null> {
+        if (!credentials) {
+          throw new Error('No credentials provided');
+        }
+
         await dbConnect();
 
         const user = await UserModel.findOne({

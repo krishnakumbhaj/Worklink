@@ -18,9 +18,72 @@ import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+// ✅ Move Logo and LogoIcon components inside the main component or create separate files
+const Logo = () => {
+  return (
+    <a
+      href="#"
+      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
+    >
+      <Image
+        src={Worklink}
+        alt="Acet Labs Logo"
+        width={92}
+        height={92}
+        className=" h-10 w-16 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm dark:bg-white"
+      />
+      <motion.span
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="font-medium whitespace-pre text-black dark:text-white"
+      >
+       worklink
+      </motion.span>
+    </a>
+  );
+};
+
+const LogoIcon = () => {
+  return (
+    <a
+      href="#"
+      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
+    >
+      <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+    </a>
+  );
+};
+
+// Dummy dashboard component with content
+const Dashboard = () => {
+  return (
+    <div className="flex flex-1 bg-[#282828]">
+      <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl   bg-[#121212] p-2 md:p-10 dark:bg-neutral-900">
+        <div className="flex gap-2">
+          {[...new Array(4)].map((_, idx) => (
+            <div
+              key={`first-array-demo-1-${idx}`}
+              className="h-20 w-full animate-pulse rounded-lg bg-neutral-600 dark:bg-neutral-800"
+            ></div>
+          ))}
+        </div>
+        <div className="flex flex-1 gap-2">
+          {[...new Array(2)].map((_, idx) => (
+            <div
+              key={`second-array-demo-1-${idx}`}
+              className="h-full w-full animate-pulse rounded-lg bg-neutral-600 dark:bg-neutral-800"
+            ></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ✅ Only export the default component from page files
 export default function SidebarDemo() {
   const [open, setOpen] = useState(false);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
    const router = useRouter();
   const handleLogout = () => {
     signOut({ callbackUrl: '/sign-in' }); // or '/login' based on your route
@@ -129,64 +192,3 @@ export default function SidebarDemo() {
     </div>
   );
 }
-
-export const Logo = () => {
-  return (
-    <a
-      href="#"
-      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
-    >
-      <Image
-        src={Worklink}
-        alt="Acet Labs Logo"
-        width={92}
-        height={92}
-        className=" h-10 w-16 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm dark:bg-white"
-      />
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="font-medium whitespace-pre text-black dark:text-white"
-      >
-       worklink
-      </motion.span>
-    </a>
-  );
-};
-
-export const LogoIcon = () => {
-  return (
-    <a
-      href="#"
-      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
-    >
-      <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
-    </a>
-  );
-};
-
-// Dummy dashboard component with content
-const Dashboard = () => {
-  return (
-    <div className="flex flex-1 bg-[#282828]">
-      <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl   bg-[#121212] p-2 md:p-10 dark:bg-neutral-900">
-        <div className="flex gap-2">
-          {[...new Array(4)].map((_, idx) => (
-            <div
-              key={`first-array-demo-1-${idx}`}
-              className="h-20 w-full animate-pulse rounded-lg bg-neutral-600 dark:bg-neutral-800"
-            ></div>
-          ))}
-        </div>
-        <div className="flex flex-1 gap-2">
-          {[...new Array(2)].map((_, idx) => (
-            <div
-              key={`second-array-demo-1-${idx}`}
-              className="h-full w-full animate-pulse rounded-lg bg-neutral-600 dark:bg-neutral-800"
-            ></div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};

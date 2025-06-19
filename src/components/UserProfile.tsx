@@ -1,7 +1,8 @@
 'use client';
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { User,Mail, Phone, MapPin, Calendar, ExternalLink, Linkedin, Github, Twitter, Globe } from 'lucide-react';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import LoaderShowcase from "@/components/ui/LoaderShowcase";
 import axios from "axios";
 
@@ -28,7 +29,7 @@ const UserProfile = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   
   useEffect(() => {
     const fetchProfile = async () => {
@@ -81,7 +82,7 @@ const UserProfile = () => {
 
   const {
     fullName,
-    email,
+    // email,
     bio,
     profileImage,
     phone,
@@ -130,10 +131,13 @@ const UserProfile = () => {
           {/* Profile Image */}
           <div className="relative mb-4 md:mb-0 md:mr-6">
             <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
-              <img
-                src={profileImage}
-                alt={fullName}
-                className="w-full h-full object-cover"
+              <Image
+              src={profileImage || "/default-profile.png"}
+              alt={fullName || "Profile Image"}
+              width={128}
+              height={128}
+              className="w-full h-full object-cover"
+              priority
               />
             </div>
           </div>

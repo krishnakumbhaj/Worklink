@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type NavbarProps = {
   logo: string; // URL for logo image
@@ -13,7 +14,7 @@ const Navbar: React.FC<NavbarProps> = ({ logo, name }) => {
     <nav className="flex justify-between items-center p-4 bg-gray-900 text-white">
       {/* Left Side: Logo and Name */}
       <div className="flex items-center gap-2">
-        <img src={logo} alt="Logo" className="w-8 h-8" />
+        <Image src={logo} alt="Logo" width={32} height={32} className="w-8 h-8" />
         <h1 className="text-xl font-bold">{name}</h1>
       </div>
 

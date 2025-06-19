@@ -172,53 +172,56 @@ const Accepthing_project_list: React.FC = () => {
   }, [fetchMyProjects]);
 
   // Enhanced status update with loading states
-  const updateProjectStatus = async (
-    projectId: string,
-    status: ProjectStatus,
-    selectedFreelancer?: string
-  ) => {
-    setProcessingStates(prev => ({ ...prev, [projectId]: true }));
+  const updateProjectStatus = useCallback(
+    async (
+      projectId: string,
+      status: ProjectStatus,
+      selectedFreelancer?: string
+    ) => {
+      setProcessingStates(prev => ({ ...prev, [projectId]: true }));
 
-    try {
-      await axios.post('/api/projects/accept', {
-        projectId,
-        status,
-        selectedFreelancer,
-      });
+      try {
+        await axios.post('/api/projects/accept', {
+          projectId,
+          status,
+          selectedFreelancer,
+        });
 
-      // Success notification with better UX
-      const statusMessage = `Project status updated to "${status}"`;
-      toast.success(statusMessage);
-      setProjects((prev) =>
-        prev.map((proj) => {
-          if (proj._id !== projectId) return proj;
+        // Success notification with better UX
+        const statusMessage = `Project status updated to "${status}"`;
+        toast.success(statusMessage);
+        setProjects((prev) =>
+          prev.map((proj) => {
+            if (proj._id !== projectId) return proj;
 
-          let updatedFreelancer: Applicant | undefined =
-            typeof proj.selectedFreelancer === 'object' && proj.selectedFreelancer !== null
-              ? (proj.selectedFreelancer as Applicant)
-              : undefined;
+            let updatedFreelancer: Applicant | undefined =
+              typeof proj.selectedFreelancer === 'object' && proj.selectedFreelancer !== null
+                ? (proj.selectedFreelancer as Applicant)
+                : undefined;
 
-          if (status === 'In Progress' && selectedFreelancer) {
-            const freelancer = proj.applicants.find((a) => a._id === selectedFreelancer);
-            updatedFreelancer = freelancer;
-          } else if (status === 'Open') {
-            updatedFreelancer = undefined;
-          }
+            if (status === 'In Progress' && selectedFreelancer) {
+              const freelancer = proj.applicants.find((a) => a._id === selectedFreelancer);
+              updatedFreelancer = freelancer;
+            } else if (status === 'Open') {
+              updatedFreelancer = undefined;
+            }
 
-          return {
-            ...proj,
-            status,
-            selectedFreelancer: updatedFreelancer,
-          };
-        })
-      );
-    } catch (err) {
-      const errorMessage = handleApiError(err);
-      toast.error(`Error updating project status: ${errorMessage}`);
-    } finally {
-      setProcessingStates(prev => ({ ...prev, [projectId]: false }));
-    }
-  };
+            return {
+              ...proj,
+              status,
+              selectedFreelancer: updatedFreelancer,
+            };
+          })
+        );
+      } catch (err) {
+        const errorMessage = handleApiError(err);
+        toast.error(`Error updating project status: ${errorMessage}`);
+      } finally {
+        setProcessingStates(prev => ({ ...prev, [projectId]: false }));
+      }
+    },
+    [handleApiError, setProjects, setProcessingStates]
+  );
 
   const deleteProject = async (projectId: string) => {
     setProcessingStates(prev => ({ ...prev, [projectId]: true }));
@@ -237,11 +240,11 @@ const Accepthing_project_list: React.FC = () => {
 
   const acceptApplicant = useCallback((projectId: string, applicantId: string) => {
     updateProjectStatus(projectId, 'In Progress', applicantId);
-  }, []);
+  }, [updateProjectStatus]);
 
   const reassignApplicant = useCallback((projectId: string, newApplicantId: string) => {
     updateProjectStatus(projectId, 'In Progress', newApplicantId);
-  }, []);
+  }, [updateProjectStatus]);
 
   // Status badge component with enhanced styling
   const StatusBadge: React.FC<{ status: ProjectStatus }> = ({ status }) => {
@@ -335,7 +338,7 @@ const Accepthing_project_list: React.FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
               <h3 className="text-xl font-medium text-gray-300 mb-2">No Projects Yet</h3>
-              <p className="text-gray-500">You haven't posted any projects yet. Start by creating your first project!</p>
+                <p className="text-gray-500">You haven&apos;t posted any projects yet. Start by creating your first project!</p>
             </div>
           </div>
         )}

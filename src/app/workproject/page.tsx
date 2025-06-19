@@ -45,8 +45,14 @@ const ProjectsList: React.FC = () => {
       try {
         const response = await axios.get('/api/projects');
         setProjects(response.data);
-      } catch (err: any) {
-        setError(err.response?.data?.message || err.message || 'Error fetching projects');
+      } catch (err: unknown) {
+        if (err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'message' in err.response.data) {
+          setError((err.response as { data: { message?: string } }).data.message || 'Error fetching projects');
+        } else if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Error fetching projects');
+        }
       } finally {
         setLoading(false);
       }
@@ -74,8 +80,14 @@ const ProjectsList: React.FC = () => {
             : proj
         )
       );
-    } catch (err: any) {
-      showNotification('Error applying to project: ' + (err.response?.data?.message || err.message), 'error');
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'message' in err.response.data) {
+        showNotification('Error applying to project: ' + (err.response as { data: { message?: string } }).data.message, 'error');
+      } else if (err instanceof Error) {
+        showNotification('Error applying to project: ' + err.message, 'error');
+      } else {
+        showNotification('Error applying to project', 'error');
+      }
     }
   };
 
@@ -105,8 +117,14 @@ const ProjectsList: React.FC = () => {
           };
         })
       );
-    } catch (err: any) {
-      showNotification('Error withdrawing application: ' + (err.response?.data?.message || err.message), 'error');
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'message' in err.response.data) {
+        showNotification('Error withdrawing application: ' + (err.response as { data: { message?: string } }).data.message, 'error');
+      } else if (err instanceof Error) {
+        showNotification('Error withdrawing application: ' + err.message, 'error');
+      } else {
+        showNotification('Error withdrawing application', 'error');
+      }
     }
   };
 

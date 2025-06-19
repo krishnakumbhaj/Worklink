@@ -35,7 +35,7 @@ export default function ClientOngoingProjects() {
   const [showDetailModal, setShowDetailModal] = useState<Project | null>(null);
 
   const currentUserEmail = 'client@example.com';
-  const currentUserRole: 'client' = 'client';
+  const currentUserRole = 'client' as const;
 
   const showToast = (message: string, type: 'success' | 'error' | 'info') => {
     const id = Math.random().toString(36).substr(2, 9);

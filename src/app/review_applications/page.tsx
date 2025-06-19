@@ -13,12 +13,11 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import PostJobForm from '@/components/PostJobForm';
 import Accepthing_project_list from '@/components/Accepthing_project_list';
 
 export default function SidebarDemo() {
   const [open, setOpen] = useState(false);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
    const router = useRouter();
   const handleLogout = () => {
     signOut({ callbackUrl: '/sign-in' }); // or '/login' based on your route
@@ -139,7 +138,7 @@ export default function SidebarDemo() {
   );
 }
 
-export const Logo = () => {
+function Logo() {
   return (
     <a
       href="#"
@@ -155,9 +154,9 @@ export const Logo = () => {
       </motion.span>
     </a>
   );
-};
+}
 
-export const LogoIcon = () => {
+function LogoIcon() {
   return (
     <a
       href="#"
@@ -166,13 +165,13 @@ export const LogoIcon = () => {
       <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
     </a>
   );
-};
+}
 
 // Dummy dashboard component with content
-const Dashboard = () => {
+function Dashboard() {
   return (
     <div className="flex-1 bg-[#121212] overflow-y-auto p-4">
-            <Accepthing_project_list />
-          </div>
+      <Accepthing_project_list />
+    </div>
   );
-};
+}

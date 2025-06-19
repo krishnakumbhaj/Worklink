@@ -3,7 +3,6 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 import dbConnect from '@/lib/dbConnect';
 import Job from '@/models/Job';
-import User from '@/models/User';
 
 export async function DELETE(
   req: NextRequest,

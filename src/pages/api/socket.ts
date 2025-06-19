@@ -4,11 +4,15 @@ import dbConnect from '@/lib/dbConnect';
 import Chat from '@/models/Chatmodel';
 
 export default async function socketHandler(req: NextApiRequest, res: NextApiResponse) {
-  const typedSocket = res.socket as typeof res.socket & { server: any };
+  if (!res.socket) {
+    res.status(500).end('Socket is not available');
+    return;
+  }
+  const typedSocket = res.socket as typeof res.socket & { server: { io?: Server } };
 
   if (!typedSocket.server.io) {
     console.log('🔌 Initializing Socket.IO...');
-    const io = new Server(typedSocket.server);
+    const io = new Server(typedSocket.server as import('http').Server);
     typedSocket.server.io = io;
 
     io.on('connection', (socket) => {

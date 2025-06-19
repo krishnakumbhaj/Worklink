@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 interface User {
   username: string;
@@ -40,7 +40,7 @@ const OngoingProjects = () => {
   const [expandedDescriptions, setExpandedDescriptions] = useState<Set<string>>(new Set());
 
   const freelancerEmail = 'freelancer@example.com';
-  const currentUserRole: 'freelancer' = 'freelancer';
+  const currentUserRole = 'freelancer' as const;
 
   const addToast = (message: string, type: 'success' | 'error' | 'info') => {
     const id = Date.now().toString();
@@ -56,7 +56,7 @@ const OngoingProjects = () => {
     setToasts(prev => prev.filter(toast => toast.id !== id));
   };
 
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     try {
       setLoading(true);
       // Your actual API call
@@ -70,11 +70,11 @@ const OngoingProjects = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [freelancerEmail]);
 
   useEffect(() => {
     fetchProjects();
-  }, []);
+  }, [fetchProjects]);
 
   const handleCompletionRequest = async (chatId: string) => {
     if (!chatId) return;

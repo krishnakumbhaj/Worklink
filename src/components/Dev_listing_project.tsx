@@ -125,8 +125,12 @@ const Dev_listing_project = () => {
         )
       );
 
-    } catch (err: any) {
-      addToast(err.response?.data?.message || 'Failed to confirm project', 'error');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        addToast(err.response?.data?.message || 'Failed to confirm project', 'error');
+      } else {
+        addToast('Failed to confirm project', 'error');
+      }
     } finally {
       setActionLoading(null);
     }
@@ -146,8 +150,12 @@ const Dev_listing_project = () => {
       addToast(res.data.message || 'Proposal withdrawn successfully!', 'success');
       // Remove the project from the list after withdrawing (since backend deletes it)
       setProjects((prev) => prev.filter((p) => p._id !== projectId));
-    } catch (err: any) {
-      addToast(err.response?.data?.message || 'Failed to withdraw confirmation', 'error');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        addToast(err.response?.data?.message || 'Failed to withdraw confirmation', 'error');
+      } else {
+        addToast('Failed to withdraw confirmation', 'error');
+      }
     } finally {
       setActionLoading(null);
     }

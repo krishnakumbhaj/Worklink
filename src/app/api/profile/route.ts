@@ -85,7 +85,7 @@ export async function POST(request: Request) {
 
 
 
-export async function GET(request: Request) {
+export async function GET() {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.email) {
@@ -163,7 +163,7 @@ export async function PATCH(req: NextRequest) {
     ];
 
     // Filter only allowed updates
-    const filteredUpdates: any = {};
+    const filteredUpdates: Record<string, unknown> = {};
     for (const key in updates) {
       if (allowedFields.includes(key)) {
         filteredUpdates[key] = updates[key];
@@ -187,7 +187,7 @@ export async function PATCH(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE() {
   await dbConnect();
   const session = await getServerSession(authOptions);
 

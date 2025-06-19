@@ -1,39 +1,62 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sidebar, SidebarBody, SidebarLink } from '../../components/ui/sidebar';
 import {
   IconArrowLeft,
   IconBrandTabler,
   IconSettings,
   IconUserBolt,
+  IconNotification
 } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import UserProfile from '@/components/UserProfile';
 
 export default function SidebarDemo() {
   const [open, setOpen] = useState(false);
-  const { data: session, status } = useSession();
-
+  const { data: session } = useSession();
+   const router = useRouter();
   const handleLogout = () => {
     signOut({ callbackUrl: '/sign-in' }); // or '/login' based on your route
   };
+  const handleprofile = () => {
+    router.push('/post-profile') // or '/login' based on your route
+  };
+  const [hasProfile, setHasProfile] = useState(true); // Assume true by default
+
+  useEffect(() => {
+   const checkProfile = async () => {
+  try {
+    const res = await fetch('/api/profile');
+    const data = await res.json();
+
+    // If profile exists, set true
+    setHasProfile(!!data.profile);
+  } catch (error) {
+    console.error('Failed to check profile:', error);
+  }
+
+};
+    checkProfile();
+
+  }, [session]);
 
   const links = [
     {
       label: 'Dashboard',
-      href: '#',
+      href: '/dashboard',
       icon: (
         <IconBrandTabler className="h-7 w-7 shrink-0 text-[#fefefe] dark:text-neutral-200" />
       ),
     },
     {
-      label: 'Dashboard',
+      label: 'Notification',
       href: '#',
       icon: (
-        <IconBrandTabler className="h-7 w-7 shrink-0 text-[#fefefe] dark:text-neutral-200" />
+        <IconNotification className="h-7 w-7 shrink-0 text-[#fefefe] dark:text-neutral-200" />
       ),
     },
     {
@@ -51,19 +74,19 @@ export default function SidebarDemo() {
       ),
     },
     {
-      label: 'Profile',
-      href: '#',
+      label: 'jobpost',
+      href: '/jobpost',
       icon: (
         <IconUserBolt className="h-7 w-7 shrink-0 text-[#fefefe] dark:text-neutral-200" />
       ),
     },
-    {
-      label: 'Settings',
-      href: '#',
-      icon: (
-        <IconSettings className="h-7 w-7 shrink-0 text-[#fefefe] dark:text-neutral-200" />
-      ),
-    },
+    // {
+    //   label: 'Settings',
+    //   href: '#',
+    //   icon: (
+    //     <IconSettings className="h-7 w-7 shrink-0 text-[#fefefe] dark:text-neutral-200" />
+    //   ),
+    // },
   ];
 
   return (
@@ -88,6 +111,14 @@ export default function SidebarDemo() {
                 <IconArrowLeft className="h-7 w-7 shrink-0 " />
                 {open && <span>Logout</span>}
                 </button>
+                {!hasProfile && (
+                  <button
+                          onClick={handleprofile}
+                            className="flex items-center gap-2 rounded-full py-2 text-center text-md w-36 font-medium text-purple-600 hover:bg-purple-100 dark:hover:bg-purple-900 transition-all duration-300 ease-in-out transform hover:px-1 hover:scale-105 hover:translate-x-2 "
+  >
+    {open && <span className='px-3'>Create Profile</span>}
+  </button>
+)}
             </div>
           </div>
             <div>
@@ -107,7 +138,7 @@ export default function SidebarDemo() {
   );
 }
 
-export const Logo = () => {
+function Logo() {
   return (
     <a
       href="#"
@@ -123,9 +154,9 @@ export const Logo = () => {
       </motion.span>
     </a>
   );
-};
+}
 
-export const LogoIcon = () => {
+function LogoIcon() {
   return (
     <a
       href="#"
@@ -134,13 +165,13 @@ export const LogoIcon = () => {
       <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
     </a>
   );
-};
+}
 
 // Dummy dashboard component with content
-const Dashboard = () => {
+function Dashboard() {
   return (
-            <div className=" flex-1 overflow-y-auto bg-[#121212] p-1">
-              <UserProfile />
-          </div>
+    <div className="flex-1 bg-[#121212] overflow-y-auto p-4">
+      <UserProfile />
+    </div>
   );
-};
+}

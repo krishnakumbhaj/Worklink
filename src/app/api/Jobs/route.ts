@@ -1,5 +1,3 @@
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Job from '@/models/Job';
@@ -75,7 +73,7 @@ export async function POST(req: NextRequest) {
 }
 
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   await dbConnect();
 
   try {

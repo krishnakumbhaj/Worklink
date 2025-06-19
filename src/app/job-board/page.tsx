@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Loader, Trash2, MapPin, Clock, DollarSign, Building, Calendar, Users, Wifi, Edit3, X, CheckCircle, AlertCircle } from 'lucide-react';
+import { Loader, Trash2, MapPin, Clock, DollarSign, Building, Calendar, Users, Wifi, X, CheckCircle, AlertCircle } from 'lucide-react';
 
 interface Job {
   _id: string;
@@ -257,13 +257,13 @@ export default function UserPostedJobs() {
                 <Building className="w-8 h-8 text-[#894cd1]" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">No Jobs Posted Yet</h3>
-              <p className="text-gray-400">You haven't posted any jobs yet. Create your first job posting to get started!</p>
+              <p className="text-gray-400">You haven&apos;t posted any jobs yet. Create your first job posting to get started!</p>
             </div>
           </div>
         ) : (
           <div className="max-w-6xl mx-auto">
             <div className="grid gap-8 lg:grid-cols-1">
-              {jobs.map((job, index) => (
+              {jobs.map((job) => (
                 <div
                   key={job._id}
                   className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#894cd1]/30 transition-all duration-500 hover:shadow-2xl hover:shadow-[#894cd1]/10 relative overflow-hidden"

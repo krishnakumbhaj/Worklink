@@ -47,13 +47,13 @@ export default function ChatRoomPage() {
   const [sending, setSending] = useState(false);
   const [clientId, setClientId] = useState<string | null>(null);
   const [freelancerId, setFreelancerId] = useState<string | null>(null);
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [onlineStatus, setOnlineStatus] = useState<'online' | 'offline' | 'away'>('offline');
+  const [onlineStatus] = useState<'online' | 'offline' | 'away'>('offline');
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const socketRef = useRef<any>(null); // Replace with proper Socket type
+
 
   // Mock emojis for demo
   const commonEmojis = ['😀', '😂', '🥰', '😎', '🤔', '👍', '❤️', '🎉', '🔥', '💯'];

@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation';
 
 export default function SidebarDemo() {
   const [open, setOpen] = useState(false);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
    const router = useRouter();
   const handleLogout = () => {
     signOut({ callbackUrl: '/sign-in' }); // or '/login' based on your route
@@ -128,7 +128,8 @@ export default function SidebarDemo() {
   );
 }
 
-export const Logo = () => {
+// Moved Logo and LogoIcon components below as internal components (not exported)
+const Logo = () => {
   return (
     <a
       href="#"
@@ -146,7 +147,7 @@ export const Logo = () => {
   );
 };
 
-export const LogoIcon = () => {
+const LogoIcon = () => {
   return (
     <a
       href="#"
@@ -156,7 +157,7 @@ export const LogoIcon = () => {
     </a>
   );
 };
-import PostProjectForm from '@/components/PostProjectForm';
+
 import Dev_listing_project from '@/components/Dev_listing_project';
 // Dummy dashboard component with content
 const Dashboard = () => {

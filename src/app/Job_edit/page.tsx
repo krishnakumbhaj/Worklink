@@ -60,10 +60,7 @@ export default function UserPostedJobs() {
     }, 4000);
   };
 
-  const [deletingJobId, setDeletingJobId] = useState<string | null>(null);
-
   const handleDelete = async (jobId: string) => {
-    setDeletingJobId(jobId);
     try {
       await axios.delete(`/api/Jobs/user/${jobId}`);
       setJobs(prev => prev.filter(job => job._id !== jobId));
@@ -71,12 +68,10 @@ export default function UserPostedJobs() {
     } catch (err) {
       console.error('Error deleting job:', err);
       showToast('Failed to delete job', 'error');
-    } finally {
-      setDeletingJobId(null);
     }
   };
 
-  const handleSaveField = async (jobId: string, fieldKey: keyof Job, newValue: any) => {
+  const handleSaveField = async (jobId: string, fieldKey: keyof Job, newValue: unknown) => {
     try {
       await axios.patch(`/api/Jobs/user/${jobId}`, {
         [fieldKey]: newValue,

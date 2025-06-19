@@ -236,7 +236,7 @@ export default function JobVerse() {
           </h1>
           
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Choose your path and let's create something amazing together
+            Choose your path and let&apos;s create something amazing together
           </p>
         </div>
 

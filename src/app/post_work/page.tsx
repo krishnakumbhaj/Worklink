@@ -7,18 +7,17 @@ import {
   IconBrandTabler,
   IconSettings,
   IconUserBolt,
-  IconNotification,
-  IconMeteorFilled,
-  IconUserCircle
+  IconNotification
 } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import PostProjectForm from '@/components/PostProjectForm';
 
 export default function SidebarDemo() {
   const [open, setOpen] = useState(false);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
    const router = useRouter();
   const handleLogout = () => {
     signOut({ callbackUrl: '/sign-in' }); // or '/login' based on your route
@@ -55,7 +54,7 @@ export default function SidebarDemo() {
     },
     {
       label: 'Notification',
-      href: '/joblist',
+      href: '#',
       icon: (
         <IconNotification className="h-7 w-7 shrink-0 text-[#fefefe] dark:text-neutral-200" />
       ),
@@ -68,19 +67,26 @@ export default function SidebarDemo() {
       ),
     },
     {
-      label: 'My Space',
-      href: '/My_space',
-      icon: (
-        <IconMeteorFilled className="h-7 w-7 shrink-0 text-[#fefefe] dark:text-neutral-200" />
-      ),
-    },
-    {
       label: 'Settings',
       href: '/post-profile',
       icon: (
         <IconSettings className="h-7 w-7 shrink-0 text-[#fefefe] dark:text-neutral-200" />
       ),
     },
+    {
+      label: 'jobpost',
+      href: '/jobpost',
+      icon: (
+        <IconUserBolt className="h-7 w-7 shrink-0 text-[#fefefe] dark:text-neutral-200" />
+      ),
+    },
+    // {
+    //   label: 'Settings',
+    //   href: '#',
+    //   icon: (
+    //     <IconSettings className="h-7 w-7 shrink-0 text-[#fefefe] dark:text-neutral-200" />
+    //   ),
+    // },
   ];
 
   return (
@@ -117,7 +123,11 @@ export default function SidebarDemo() {
           </div>
             <div>
             <div className="flex items-center gap-2 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-200">
-             <IconUserCircle className="h-8 w-8 shrink-0 text-[#fefefe] dark:text-neutral-200" />
+              <div
+                className="flex h-9 w-9 shrink-0 items-center justify-center py-1 rounded-full bg-black text-[#fefefe] text-xl font-bold"
+              >
+                {session?.user?.username?.charAt(0).toUpperCase() || 'G'}
+              </div>
               <span className='text-[#fefefe] text-lg'>{session?.user?.username || session?.user?.name || 'Guest'}</span>
             </div>
             </div>
@@ -128,7 +138,7 @@ export default function SidebarDemo() {
   );
 }
 
-export const Logo = () => {
+function Logo() {
   return (
     <a
       href="#"
@@ -144,9 +154,9 @@ export const Logo = () => {
       </motion.span>
     </a>
   );
-};
+}
 
-export const LogoIcon = () => {
+function LogoIcon() {
   return (
     <a
       href="#"
@@ -155,13 +165,13 @@ export const LogoIcon = () => {
       <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
     </a>
   );
-};
-import PostProjectForm from '@/components/PostProjectForm';
+}
+
 // Dummy dashboard component with content
-const Dashboard = () => {
+function Dashboard() {
   return (
-    <div className="flex-1 bg-[#121212]  overflow-y-auto p-4 py-0">
-            <PostProjectForm />
-          </div>
+    <div className="flex-1 bg-[#121212] overflow-y-auto p-4">
+      <PostProjectForm />
+    </div>
   );
-};
+}

@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 
-export async function POST(req: NextRequest, { params }: { params: { chatId: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ chatId: string }> }) {
   await dbConnect();
 
   const session = await getServerSession(authOptions);
@@ -28,7 +28,10 @@ export async function POST(req: NextRequest, { params }: { params: { chatId: str
     return NextResponse.json({ error: 'Message text is required' }, { status: 400 });
   }
 
-  const chat = await Chat.findById(params.chatId);
+  // ✅ Await the params to get chatId
+  const { chatId } = await params;
+
+  const chat = await Chat.findById(chatId);
   if (!chat) {
     return NextResponse.json({ error: 'Chat not found' }, { status: 404 });
   }
@@ -43,7 +46,7 @@ export async function POST(req: NextRequest, { params }: { params: { chatId: str
 
   // ✅ Push message with proper ObjectId
   chat.messages.push({
-    senderId: new mongoose.Types.ObjectId(userId),
+    senderId: mongoose.Types.ObjectId.createFromHexString(userId),
     message: message.trim(),
     type,
     attachmentUrl,
@@ -55,15 +58,13 @@ export async function POST(req: NextRequest, { params }: { params: { chatId: str
   // ✅ Return the saved message
   const savedMessage = chat.messages[chat.messages.length - 1];
 
- return NextResponse.json({
-  _id: savedMessage._id.toString(),
-  message: savedMessage.message,
-  senderId: {
-    _id: user._id.toString(),
-    username: user.username,
-  },
-  timestamp: savedMessage.timestamp,
-});
-
-
+  return NextResponse.json({
+    _id: savedMessage._id.toString(),
+    message: savedMessage.message,
+    senderId: {
+      _id: user._id.toString(),
+      username: user.username,
+    },
+    timestamp: savedMessage.timestamp,
+  });
 }

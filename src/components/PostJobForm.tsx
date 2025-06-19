@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { XCircle, Calendar, MapPin, Briefcase, DollarSign, Building, Clock } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 interface FormData {
   userId?: string;  
   email?: string; // Optional, if you want to include it                
@@ -28,7 +27,6 @@ interface FormErrors {
 
 const PostJobForm = () => {
   const router = useRouter();
-  const { data: session } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [formData, setFormData] = useState<FormData>({

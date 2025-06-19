@@ -1,18 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
   Briefcase, 
-  FileText, 
   Users, 
   Clock, 
   Search, 
   Code,
   PlusCircle,
-  ArrowLeft,
-  Loader2
 } from 'lucide-react';
 
 export default function Project_verse () {

@@ -7,7 +7,8 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    let { projectId, status, selectedFreelancer } = body;
+    const { projectId, status: statusRaw, selectedFreelancer } = body;
+    let status = statusRaw;
 
     if (!projectId || !status) {
       return NextResponse.json(
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
       }
 
       const freelancer = project.applicants.find(
-        (a: any) => a._id?.toString() === selectedFreelancer
+        (a: { _id: { toString: () => string } }) => a._id?.toString() === selectedFreelancer
       );
 
       if (!freelancer) {

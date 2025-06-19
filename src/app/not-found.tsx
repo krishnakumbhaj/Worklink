@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Home, RefreshCw, Search, ArrowLeft } from 'lucide-react';
 
 type Particle = {
   id: number;

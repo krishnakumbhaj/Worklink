@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { getSession } from 'next-auth/react';
 import { 
-  User, Mail, Phone, MapPin, Briefcase, GraduationCap, Link, Plus, Trash2, 
+  User, Briefcase, GraduationCap, Plus, Trash2, 
   ImagePlus, CheckCircle2, AlertCircle, Globe 
 } from 'lucide-react';
+import Image from 'next/image';
 
 interface UserProfile {
   userId?: string;
@@ -166,7 +167,7 @@ const ProfileCreationForm: React.FC = () => {
       } else {
         setSubmissionStatus(result.message || 'Something went wrong');
       }
-    } catch (err) {
+    } catch {
       setSubmissionStatus('Network error');
     }
   };
@@ -207,16 +208,18 @@ const ProfileCreationForm: React.FC = () => {
                 className="cursor-pointer block"
               >
                 {profileImage ? (
-                  <div className="relative">
-                    <img 
-                      src={profileImage} 
-                      alt="Profile" 
+                    <div className="relative">
+                    <Image
+                      src={profileImage}
+                      alt="Profile"
+                      width={144}
+                      height={144}
                       className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-lg group-hover:scale-105 transition-transform"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 rounded-full transition-all flex items-center justify-center">
                       <ImagePlus className="text-white opacity-0 group-hover:opacity-100 transition-opacity" size={40} />
                     </div>
-                  </div>
+                    </div>
                 ) : (
                   <div className="w-36 h-36 rounded-full bg-gradient-to-br from-purple-100 to-purple-100 flex items-center justify-center border-4 border-purple-200 hover:scale-105 transition-transform">
                     <ImagePlus className="text-[#894cd1]" size={50} />
