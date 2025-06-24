@@ -21,7 +21,7 @@ import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 // import Search from '../../components/Search';
-import ProfileCreationForm from '@/components/ProfileCreationForm';
+import Settings from '@/components/Settings';
 
 // ✅ Move Logo and LogoIcon components inside the main component or create separate files
 const Logo = () => {
@@ -188,11 +188,12 @@ export default function SidebarDemo() {
     </div>
   );
 }
+
 // Dummy dashboard component with content
 function Dashboard() {
   return (
     <div className="flex-1 bg-[#121212] overflow-y-auto p-4">
-      <ProfileCreationForm />
+      <Settings />
     </div>
   );
 }

@@ -45,7 +45,7 @@ const UserProfile = () => {
         setProfile(response.data.profile);
         console.log(response.data.profile);
       } catch (err) {
-        setError("Failed to load profile.");
+        setError("No profile exist");
         console.error(err);
       } finally {
         setLoading(false);

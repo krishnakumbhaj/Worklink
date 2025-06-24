@@ -240,7 +240,7 @@ const Dev_listing_project = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br  py-8 px-4 sm:px-6 lg:px-8">
+    <div className="w-full overflow-y-auto bg-gradient-to-br  py-8 px-4 sm:px-6 lg:px-8">
       {/* Toast Notifications */}
       <div className="fixed top-4 right-4 z-50 space-y-2">
         {toasts.map((toast) => (

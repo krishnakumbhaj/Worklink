@@ -64,6 +64,7 @@ export const config = {
     '/OngoingProjects',
     '/profile_edit',
     '/project_verse',
+    '/settings'
   ],
 };
 
@@ -99,6 +100,7 @@ export async function middleware(request: NextRequest) {
     '/OngoingProjects',
     '/profile_edit',
     '/project_verse',
+    '/settings'
   ];
 
   // If user is not authenticated and tries to access protected routes, redirect to sign-in

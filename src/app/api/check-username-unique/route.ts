@@ -3,11 +3,14 @@ import UserModel from '@/models/User';
 import { z } from 'zod';
 import { usernameValidation } from '@/schemas/signUpSchema';
 
+// Force dynamic rendering to fix Vercel deployment error
+export const dynamic = 'force-dynamic';
+
 const UsernameQuerySchema = z.object({
   username: usernameValidation,
 });
 
-export async function GET(request: Request) {
+export async function GET( request: any) {
   await dbConnect();
 
   try {
@@ -42,7 +45,7 @@ export async function GET(request: Request) {
           success: false,
           message: 'Username is already taken',
         },
-        { status: 409 } // 👈 Correct HTTP status code for "already exists"
+        { status: 409 }
       );
     }
 

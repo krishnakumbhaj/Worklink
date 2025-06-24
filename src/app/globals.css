@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: 'bellota';
+  font-family: 'Bellota', cursive;
   background: #000;
 }
 
